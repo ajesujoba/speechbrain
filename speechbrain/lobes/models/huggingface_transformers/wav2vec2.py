@@ -94,7 +94,7 @@ class Wav2Vec2(HFTransformersInterface):
 
         # We check if inputs need to be normalized w.r.t pretrained wav2vec2
         self.load_feature_extractor(source, cache_dir=save_path)
-        self.normalize_wav = self.feature_extractor.do_normalize
+        self.normalize_wav = self.feature_extractor.do_normalize_per_mel_bins
 
         self.freeze_feature_extractor = freeze_feature_extractor
         if not self.freeze and self.freeze_feature_extractor:
