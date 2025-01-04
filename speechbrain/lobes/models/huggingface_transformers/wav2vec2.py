@@ -182,7 +182,7 @@ class Wav2Vec2(HFTransformersInterface):
 
         wavx = self.feature_extractor(wav_np)
         print("the features from seamless = ", wavx)
-        wav2 = torch.tensor(wavx["input_values"], device=self.device)
+        wav2 = torch.tensor(wavx["input_features"], device=self.device)
         # Extract wav2vec output
         out = self.model(
             wav2,
