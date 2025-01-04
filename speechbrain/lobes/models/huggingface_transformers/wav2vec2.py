@@ -177,8 +177,10 @@ class Wav2Vec2(HFTransformersInterface):
 
         # if self.normalize_wav:
         wav = F.layer_norm(wav, wav.shape[1:])
+        wav_cpu = wav.cpu()  # Ensure it's on the CPU
+        wav_np = wav_cpu.numpy()  # Convert to NumPy array
 
-        wav2 = self.feature_extractor(wav)
+        wav2 = self.feature_extractor(wav_np)
 
         # Extract wav2vec output
         out = self.model(
