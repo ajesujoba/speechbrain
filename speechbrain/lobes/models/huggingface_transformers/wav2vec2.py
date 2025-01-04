@@ -180,8 +180,8 @@ class Wav2Vec2(HFTransformersInterface):
         wav_cpu = wav.cpu()  # Ensure it's on the CPU
         wav_np = wav_cpu.numpy()  # Convert to NumPy array
 
-        wav2 = self.feature_extractor(wav_np)
-
+        wavx = self.feature_extractor(wav_np)
+        wav2 = wav = torch.tensor(wav["input_values"], device=self.device)
         # Extract wav2vec output
         out = self.model(
             wav2,
