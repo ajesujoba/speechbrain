@@ -175,8 +175,8 @@ class Wav2Vec2(HFTransformersInterface):
 
         padding_mask = make_padding_masks(wav, wav_len=wav_lens)
 
-        if self.normalize_wav:
-            wav = F.layer_norm(wav, wav.shape[1:])
+        # if self.normalize_wav:
+        wav = F.layer_norm(wav, wav.shape[1:])
 
         # Extract wav2vec output
         out = self.model(
