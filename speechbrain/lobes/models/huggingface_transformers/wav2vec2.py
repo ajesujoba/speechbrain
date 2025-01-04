@@ -178,9 +178,11 @@ class Wav2Vec2(HFTransformersInterface):
         # if self.normalize_wav:
         wav = F.layer_norm(wav, wav.shape[1:])
 
+        wav2 = self.model.feature_extractor(wav)
+
         # Extract wav2vec output
         out = self.model(
-            wav,
+            wav2,
             attention_mask=padding_mask,
             output_hidden_states=self.output_all_hiddens,
         )
