@@ -181,7 +181,7 @@ class Wav2VecBert(HFTransformersInterface):
         # wav_cpu = wav_norm.cpu()  # Ensure it's on the CPU
         # wav_npy = wav.numpy()  # Convert to NumPy array
         
-        wavx = self.model.feature_extractor(wav.cpu().numpy())
+        wavx = self.feature_extractor(wav.cpu().numpy())
         # print("the features from seamless = ", wavx)
         wav = wavx["input_features"] #, device=self.model.device)
 
