@@ -99,7 +99,7 @@ class Xeus(nn.Module):
         if not os.path.exists(ssl_config):
             raise FileNotFoundError("XEUS model config file not found")
 
-        self.model, self.xeus_train_args = SSLTask.build_model_from_file(None, 'xeus_checkpoint.pth',)
+        self.model, self.xeus_train_args = SSLTask.build_model_from_file(None, f'{ssl_dir}/xeus_checkpoint.pth',)
         print("The device the model is on is = ", self.model.device)
         if use_flash_attn:
             for layer in self.model.decoder.decoders:
