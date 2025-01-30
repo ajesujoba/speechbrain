@@ -93,13 +93,15 @@ class Xeus(nn.Module):
     ):
         super().__init__()
         # self.model.config.apply_spec_augment = apply_spec_augment maybe in the future
-
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         ssl_dir = os.path.dirname(source)
         ssl_config = f"{ssl_dir}/config.yaml"
         if not os.path.exists(ssl_config):
             raise FileNotFoundError("XEUS model config file not found")
 
         self.model, self.xeus_train_args = SSLTask.build_model_from_file(None, f'{ssl_dir}/xeus_checkpoint.pth',)
+        self.model.to(self.device)
+
         print("The device the model is on is = ", self.model.device)
         if use_flash_attn:
             for layer in self.model.decoder.decoders:
