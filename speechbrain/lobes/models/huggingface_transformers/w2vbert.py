@@ -185,15 +185,19 @@ class Wav2VecBert(HFTransformersInterface):
         wavx = self.feature_extractor(wav.cpu().numpy())
         print("the features from seamless = ", wavx)
         wav = torch.tensor(wavx["input_features"], device=self.model.device) # device
+        if wav_lens != None:
+            attention_mask = torch.tensor(wavx["attention_mask"], device=self.model.device)
+
 
         print("hidden_states shape:", wav.shape)
         print("attention_mask shape:", padding_mask.shape)
+        print("the new attention_mask shape = ", attention_mask.shape)
         print("attention_mask after unsqueeze:", padding_mask.bool().unsqueeze(-1).shape)
 
         # Extract wav2vec output
         out = self.model(
             wav,
-            attention_mask=padding_mask,
+            attention_mask=attention_mask,
             output_hidden_states=self.output_all_hiddens,
         )
 
