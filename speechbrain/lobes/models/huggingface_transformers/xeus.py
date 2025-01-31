@@ -101,8 +101,7 @@ class Xeus(nn.Module):
 
         self.model, self.xeus_train_args = SSLTask.build_model_from_file(None, f'{ssl_dir}/xeus_checkpoint.pth',)
         self.model.to(self.device)
-        print("The device the model is on is = ", self.device)
-        print("The device the model is on is = ", self.model.device)
+        
         if use_flash_attn:
             for layer in self.model.decoder.decoders:
                 layer.use_flash_attn = True
