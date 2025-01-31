@@ -94,6 +94,8 @@ class Xeus(nn.Module):
         super().__init__()
         # self.model.config.apply_spec_augment = apply_spec_augment maybe in the future
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.freeze = freeze
+        self.freeze_feature_extractor = freeze_feature_extractor
         ssl_dir = os.path.dirname(source)
         ssl_config = f"{ssl_dir}/config.yaml"
         if not os.path.exists(ssl_config):
@@ -101,7 +103,7 @@ class Xeus(nn.Module):
 
         self.model, self.xeus_train_args = SSLTask.build_model_from_file(None, f'{ssl_dir}/xeus_checkpoint.pth',)
         self.model.to(self.device)
-        
+
         if use_flash_attn:
             for layer in self.model.decoder.decoders:
                 layer.use_flash_attn = True
@@ -111,12 +113,12 @@ class Xeus(nn.Module):
         #        torch.load(config.pretrained_model_path), strict=True
         #    )
         print("pretrained XEUS model loaded")
-        if freeze:
-            self.model.eval()
-            for param in self.model.parameters():
-                param.requires_grad = False
+        # if freeze:
+        #    self.model.eval()
+        #    for param in self.model.parameters():
+        #        param.requires_grad = False
 
-        if freeze_feature_extractor:
+        if self.freeze_feature_extractor:
             self.model.frontend.eval()
             for param in self.model.frontend.parameters():
                 param.requires_grad = False    
