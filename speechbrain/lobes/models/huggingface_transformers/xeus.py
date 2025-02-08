@@ -198,11 +198,11 @@ class Xeus(nn.Module):
 
         # need to fix this for ASR
         if wav_lens!=None:
-            wavdev = wavs[0].device  
+            wavdev = wav[0].device  
             # Compute lengths and move to the same device
-            wav_lengths = torch.tensor([len(wav) for wavs in wav], dtype=torch.long, device=wavdev)
+            wav_lengths = torch.tensor([len(wavs) for wavs in wav], dtype=torch.long, device=wavdev)
             # Recover actual lengths
-            max_length = len(wavs[0])
+            max_length = len(wav[0])
             actual_lengths = (wav_lens * max_length).long()
         else:
             wav_lengths = None
