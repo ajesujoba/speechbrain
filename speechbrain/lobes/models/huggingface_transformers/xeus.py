@@ -196,8 +196,19 @@ class Xeus(nn.Module):
             Wav2vec encoded features.
         """
 
+        # need to fix this for ASR
+        if wav_lens!=None:
+            wavdev = wavs[0].device  
+            # Compute lengths and move to the same device
+            wav_lengths = torch.tensor([len(wav) for wavs in wav], dtype=torch.long, device=wavdev)
+        else:
+            wav_lengths = None
+        print("the wav and wav lenth")
+        print("old = ", wav_lens)
+        print("new = ", wav_lengths)
+
         out = self.model.encode(
-            wav, wav_lens, use_mask=False, use_final_output=False
+            wav, wav_lengths, use_mask=False, use_final_output=False
         )[0][-1]
 
         norm_shape = out.shape
