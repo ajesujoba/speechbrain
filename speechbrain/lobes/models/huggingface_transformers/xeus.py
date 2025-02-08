@@ -201,11 +201,15 @@ class Xeus(nn.Module):
             wavdev = wavs[0].device  
             # Compute lengths and move to the same device
             wav_lengths = torch.tensor([len(wav) for wavs in wav], dtype=torch.long, device=wavdev)
+            # Recover actual lengths
+            max_length = len(wavs[0])
+            actual_lengths = (wav_lens * max_length).long()
         else:
             wav_lengths = None
         print("the wav and wav lenth")
         print("old = ", wav_lens)
         print("new = ", wav_lengths)
+        print("new2 = ", actual_lengths)
 
         out = self.model.encode(
             wav, wav_lengths, use_mask=False, use_final_output=False
